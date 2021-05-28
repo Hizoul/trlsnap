@@ -1,0 +1,7 @@
+Apache-2.0 (2): fasthash, fasthash-sys
+Apache-2.0 OR Apache-2.0 WITH LLVM-exception OR MIT (1): wasi
+Apache-2.0 OR BSL-1.0 (1): ryu
+Apache-2.0 OR MIT (24): ahash, autocfg, cfg-if, chrono, gcc, hashbrown, itoa, libc, num-integer, num-traits, proc-macro2, quote, rand, rand_core, rand_core, serde, serde_derive, serde_json, syn, time, unicode-xid, winapi, winapi-i686-pc-windows-gnu, winapi-x86_64-pc-windows-gnu
+ISC (1): rdrand
+MIT (2): seahash, xoroshiro128
+N/A (2): fuchsia-cprng, tlsurvey
