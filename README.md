@@ -6,6 +6,6 @@ This repository contains Rust Code in `src` to parse an [RDF copy](https://zenod
 
 The `web`-Folder contains the viewer for the processed and enriched data.
 
-The interactive viewer [can be used here](https://tlsnap.github.io).
+The interactive viewer [can be used here](https://hizoul.github.io/trlsnap/).
 
 The raw spreadsheet without web-viewer can be foundin `papers_transfer_type.csv`
