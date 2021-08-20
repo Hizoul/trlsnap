@@ -1,11 +1,13 @@
 import * as React from "react"
 
 import "./form"
-import { ExtendedJSONSchema, FormStore, SharedField } from "@xpfw/form"
+import { ExtendedJSONSchema, FormStore, getMapTo, SharedField } from "@xpfw/form"
 import { SCHEMA_DATA, PREFIX_FILTERS } from "../data"
 import { get, cloneDeep } from "lodash"
 import { VscDebugRestart } from "react-icons/vsc"
 import BulmaCard from "./card"
+import { useList } from "@xpfw/data"
+import { observer } from "mobx-react"
 
 const makeToTextFilter = (schema: ExtendedJSONSchema) => {
   const newSchema = cloneDeep(schema)
@@ -13,10 +15,17 @@ const makeToTextFilter = (schema: ExtendedJSONSchema) => {
   return newSchema
 }
 
-const DataFilters: React.FunctionComponent<{}> = () => {
+const DataFilters: React.FunctionComponent<{}> = observer(() => {
+  FormStore.setValue(`${getMapTo(SCHEMA_DATA, PREFIX_FILTERS)}.$limit`, 0, undefined)
+  const listData = useList(SCHEMA_DATA, PREFIX_FILTERS, undefined, undefined)
+  let data: any = []
+  if (listData.list != null && listData.list.data != null && listData.list.data.length > 0) {
+    data = listData.list.data
+  }
+  let find_amount = data.length
   return (
     <BulmaCard
-      title="Click / Tap to apply filters to only view a subset of the data"
+      title={`Click / Tap to apply filters to only view a subset of the data\nCurrently filters result in ${find_amount} of 270 entries`}
       mapTo="filters"
       defaultIsOpen={true}
       footer={(
@@ -62,6 +71,6 @@ const DataFilters: React.FunctionComponent<{}> = () => {
       </div>
     </BulmaCard>
   )
-}
+})
 
 export default DataFilters

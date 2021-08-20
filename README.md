@@ -9,3 +9,7 @@ The `web`-Folder contains the viewer for the processed and enriched data.
 The interactive viewer [can be used here](https://tlsnap.github.io).
 
 The raw spreadsheet without web-viewer can be foundin `papers_transfer_type.csv`
+
+# Visualizations
+
+Graphs used in the paper and presentation can be found in the folder `visualizations` or the interactive viewer.

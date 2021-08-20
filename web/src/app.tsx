@@ -2,7 +2,7 @@ import React from "react"
 import { XpfwTable } from "./components/table"
 import { XpfwChart } from "./components/chart"
 import DataFilters from "./components/filters"
-import { FaDownload, FaGithub, FaInfo, FaTable, FaDatabase, FaRobot, FaTag, FaMapMarkedAlt, FaUniversity, FaFilter } from "react-icons/fa"
+import { FaDownload, FaGithub, FaInfo, FaTable, FaDatabase, FaRobot, FaTag, FaMapMarkedAlt, FaUniversity, FaFilter, FaStopCircle } from "react-icons/fa"
 import { AiFillExperiment, AiOutlineCloudSync, AiOutlineFieldTime } from "react-icons/ai"
 import { CgOrganisation, CgPerformance } from "react-icons/cg"
 import { VscCode, VscListOrdered, VscReferences, VscSourceControl } from "react-icons/vsc"
@@ -19,6 +19,7 @@ import "./customStyle.scss"
 import { observable } from "mobx"
 import { observer } from "mobx-react"
 import { MdPerson } from "react-icons/md"
+import { ExtendedJSONSchema } from "@xpfw/form"
 
 
 const charts_to_show = [
@@ -39,7 +40,7 @@ const charts_to_show = [
     labelConversion: get(SCHEMA_DATA.properties, "task_mappings.selectOptions", [])
   },
   {
-    type: 0, subkey: "allowed_learner", defaultType: 0, icon: FaFilter,
+    type: 0, subkey: "allowed_learner", defaultType: 0, icon: FaStopCircle,
     labelConversion: get(SCHEMA_DATA.properties, "allowed_learner.selectOptions", [])
   },
   {
@@ -99,7 +100,8 @@ const Footer = () => {
   )
 }
 
-const BoxLink: React.FunctionComponent<{text: string, icon: any, link: string}> = (props) => {
+const BoxLink: React.FunctionComponent<{text: string, icon: any, link: string, schema?: ExtendedJSONSchema}> = (props) => {
+  let text = get(props, `schema.properties.${props.text}.label`, props.text)
   return (
     <a
       className="box btn-box column"
@@ -108,7 +110,7 @@ const BoxLink: React.FunctionComponent<{text: string, icon: any, link: string}> 
       }}
     >
       <div className="bigicn">{props.icon}</div>
-      {props.text}
+      {text}
     </a>
   )
 }
@@ -156,6 +158,13 @@ const ReactApp: React.FunctionComponent<{}> = observer(() => {
         <Credits />
       </>
     )
+  } else if (selection.get() == "filter") {
+    return (
+      <>
+        <Welcome title="Filter data" />
+        <DataFilters />
+      </>
+    )
   }
   let current_selection = selection.get()
   for (const chart_config of charts_to_show) {
@@ -175,10 +184,13 @@ const ReactApp: React.FunctionComponent<{}> = observer(() => {
 
   let chart_links = []
   
+  chart_links.push(
+    <BoxLink text={"Filter"} icon={<FaFilter />} link={"filter"} />
+  )
   for (const chart_config of charts_to_show) {
     let Icon = chart_config.icon
     chart_links.push(
-      <BoxLink text={chart_config.subkey} icon={<Icon />} link={chart_config.subkey} />
+      <BoxLink text={chart_config.subkey} icon={<Icon />} link={chart_config.subkey} schema={SCHEMA_DATA} />
     )
   }
 
